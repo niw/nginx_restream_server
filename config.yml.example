@@ -1,0 +1,18 @@
+---
+
+# Twitch
+# To enable this restream, uncomment and set each value.
+#twitch:
+#  # See <https://stream.twitch.tv/ingests/>
+#  ingestion_host: rtmp://live-sfo.twitch.tv/app
+#  # See <https://dashboard.twitch.tv/settings/channel>
+#  stream_key: ""
+#  # Use <https://inspector.twitch.tv/> or not.
+#  use_inspector: false
+
+# Periscope
+# To enable this restream, uncomment and set each value.
+#periscope:
+#  # See "Periscope Producer" settings in "Settings" of Periscope app.
+#  server_url: rtmp://or.pscp.tv:80/x
+#  stream_key: ""

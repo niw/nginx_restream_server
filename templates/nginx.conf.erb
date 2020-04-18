@@ -1,0 +1,71 @@
+daemon off;
+
+pid logs/nginx.pid;
+lock_file logs/nginx.lock;
+
+error_log logs/error.log;
+
+# `make module` creates module shared object under `/objs`.
+load_module nginx/objs/ngx_rtmp_module.so;
+
+events {
+}
+
+http {
+  server {
+    listen 8080;
+    root ./;
+
+    location /stat {
+      rtmp_stat all;
+      rtmp_stat_stylesheet nginx-rtmp-module/stat.xsl;
+    }
+  }
+}
+
+rtmp {
+  server {
+    listen 1935;
+    chunk_size 4096;
+
+    access_log off;
+
+    application live {
+      live on;
+
+      allow publish 127.0.0.1;
+      deny publish all;
+      <%- if twitch -%>
+
+      # Twitch
+      <%- if twitch['use_inspector'] -%>
+      push <%= twitch['ingestion_host'] %>/<%= twitch['stream_key'] %>?bandwidthtest=true;
+      <%- else -%>
+      push <%= twitch['ingestion_url'] %>/<%= twitch['stream_key'] %>;
+      <%- end -%>
+      <%- end -%>
+      <%- if periscope -%>
+
+      # Periscope
+      # TODO: Somehow, Periscope doesn't accept `push`.
+      # Use `exec` with `ffmpeg` to
+      exec /usr/local/bin/ffmpeg
+        -i rtmp://127.0.0.1/${app}
+        -crf 30
+        -preset ultrafast
+        -acodec aac
+        -strict experimental
+        -ar 44100
+        -ac 2
+        -b:a 64k
+        -vcodec libx264
+        -x264-params keyint=60:no-scenecut=1
+        -r 30
+        -b:v 800k
+        -s 960x540
+        -f flv
+        <%= periscope['server_url'] %>/<%= periscope['stream_key'] %>;
+      <%- end -%>
+    }
+  }
+}
