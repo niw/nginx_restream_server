@@ -4,7 +4,7 @@
 # To enable this restream, uncomment and set each value.
 #twitch:
 #  # See <https://stream.twitch.tv/ingests/>
-#  ingestion_host: rtmp://live-sfo.twitch.tv/app
+#  ingestion_url: rtmp://live-sfo.twitch.tv/app
 #  # See <https://dashboard.twitch.tv/settings/channel>
 #  stream_key: ""
 #  # Use <https://inspector.twitch.tv/> or not.

@@ -39,7 +39,7 @@ rtmp {
 
       # Twitch
       <%- if twitch['use_inspector'] -%>
-      push <%= twitch['ingestion_host'] %>/<%= twitch['stream_key'] %>?bandwidthtest=true;
+      push <%= twitch['ingestion_url'] %>/<%= twitch['stream_key'] %>?bandwidthtest=true;
       <%- else -%>
       push <%= twitch['ingestion_url'] %>/<%= twitch['stream_key'] %>;
       <%- end -%>
